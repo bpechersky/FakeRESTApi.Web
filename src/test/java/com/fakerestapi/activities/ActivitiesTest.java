@@ -99,6 +99,15 @@ public class ActivitiesTest {
                 .body("title", equalTo("Soccer"))
                 .body("completed", equalTo(true));
     }
+    @Test
+    public void deleteActivityByIdTest() {
+        given()
+                .header("accept", "*/*")
+                .when()
+                .delete("https://fakerestapi.azurewebsites.net/api/v1/Activities/1")
+                .then()
+                .statusCode(200); // ✅ or change to 204 if that's what API returns
+    }
     }
 
 
