@@ -74,4 +74,38 @@ public class AuthorsTest {
                 .contentType(ContentType.JSON)
                 .body("id", equalTo(1));
     }
+    @Test
+    public void updateAuthorByIdTest() {
+        String requestBody = """
+            {
+              "id": 1,
+              "idBook": 1,
+              "firstName": "John",
+              "lastName": "Smith"
+            }
+            """;
+
+        given()
+                .header("accept", "text/plain; v=1.0")
+                .contentType(ContentType.JSON)
+                .body(requestBody)
+                .when()
+                .put("https://fakerestapi.azurewebsites.net/api/v1/Authors/1")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("id", equalTo(1))
+                .body("idBook", equalTo(1))
+                .body("firstName", equalTo("John"))
+                .body("lastName", equalTo("Smith"));
+    }
+    @Test
+    public void deleteAuthorByIdTest() {
+        given()
+                .header("accept", "*/*")
+                .when()
+                .delete("https://fakerestapi.azurewebsites.net/api/v1/Authors/1")
+                .then()
+                .statusCode(200); // or use 204 if API returns No Content
+    }
 }
