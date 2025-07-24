@@ -8,14 +8,14 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 public class ActivitiesTest {
 
     @Test
     public void validateActivitiesResponse() {
-        Response response = RestAssured
-                .given()
+        Response response = given()
                 .header("accept", "text/plain; v=1.0")
                 .when()
                 .get("https://fakerestapi.azurewebsites.net/api/v1/Activities")
@@ -46,8 +46,7 @@ public class ActivitiesTest {
             }
             """;
 
-        RestAssured
-                .given()
+        given()
                 .header("accept", "text/plain; v=1.0") // Optional: keep if API supports it
                 .contentType(ContentType.JSON)         // ✅ standard JSON content type
                 .body(requestBody)
@@ -63,4 +62,21 @@ public class ActivitiesTest {
 
     }
 
-}
+
+        @Test
+        public void getActivityByIdTest() {
+            given()
+                    .header("accept", "text/plain; v=1.0")
+                    .when()
+                    .get("https://fakerestapi.azurewebsites.net/api/v1/Activities/1")
+                    .then()
+                    .statusCode(200)
+                    .contentType(ContentType.JSON)
+                    .body("id", equalTo(1))
+                    .body("title", equalTo("Activity 1"))
+                    .body("completed", equalTo(false));
+        }
+    }
+
+
+
