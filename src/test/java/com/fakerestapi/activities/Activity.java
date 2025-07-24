@@ -21,4 +21,5 @@ public class Activity {
     public boolean isCompleted() {
         return completed;
     }
+
 }
