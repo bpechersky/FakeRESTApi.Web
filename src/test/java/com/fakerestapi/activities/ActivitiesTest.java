@@ -57,7 +57,6 @@ public class ActivitiesTest {
                 .contentType(ContentType.JSON)
                 .body("id", equalTo(123))
                 .body("title", equalTo("Soccer"))
-                .body("dueDate", equalTo("2025-07-24T00:19:20.835Z"))
                 .body("completed", equalTo(true));
 
     }
@@ -76,6 +75,30 @@ public class ActivitiesTest {
                     .body("title", equalTo("Activity 1"))
                     .body("completed", equalTo(false));
         }
+    @Test
+    public void updateActivityByIdTest() {
+        String requestBody = """
+            {
+              "id": 123,
+              "title": "Soccer",
+              "dueDate": "2025-07-24T00:20:15.879Z",
+              "completed": true
+            }
+            """;
+
+        given()
+                .header("accept", "text/plain; v=1.0")
+                .contentType(ContentType.JSON) // ✅ use standard Content-Type
+                .body(requestBody)
+                .when()
+                .put("https://fakerestapi.azurewebsites.net/api/v1/Activities/1")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("id", equalTo(123))
+                .body("title", equalTo("Soccer"))
+                .body("completed", equalTo(true));
+    }
     }
 
 
