@@ -64,4 +64,14 @@ public class AuthorsTest {
                 .body("size()", greaterThan(0)) // ensure response contains authors
                 .body("[0].idBook", equalTo(1)); // validate bookId is 1
     }
+    public void getAuthorByIdTest() {
+        given()
+                .header("accept", "text/plain; v=1.0")
+                .when()
+                .get("https://fakerestapi.azurewebsites.net/api/v1/Authors/1")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("id", equalTo(1));
+    }
 }
