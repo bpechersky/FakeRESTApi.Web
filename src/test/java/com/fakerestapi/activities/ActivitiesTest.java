@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.equalTo;
+
 public class ActivitiesTest {
 
     @Test
@@ -33,4 +35,32 @@ public class ActivitiesTest {
         Assert.assertEquals(activities.get(29).getTitle(), "Activity 30");
         Assert.assertTrue(activities.get(29).isCompleted());
     }
+    @Test
+    public void createActivityTest() {
+        String requestBody = """
+            {
+              "id": 123,
+              "title": "Soccer",
+              "dueDate": "2025-07-24T00:19:20.835Z",
+              "completed": true
+            }
+            """;
+
+        RestAssured
+                .given()
+                .header("accept", "text/plain; v=1.0") // Optional: keep if API supports it
+                .contentType(ContentType.JSON)         // ✅ standard JSON content type
+                .body(requestBody)
+                .when()
+                .post("https://fakerestapi.azurewebsites.net/api/v1/Activities")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("id", equalTo(123))
+                .body("title", equalTo("Soccer"))
+                .body("dueDate", equalTo("2025-07-24T00:19:20.835Z"))
+                .body("completed", equalTo(true));
+
+    }
+
 }
